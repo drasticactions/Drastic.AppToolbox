@@ -1,0 +1,16 @@
+<Project Sdk="MSTest.Sdk/3.3.1">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Drastic.AppToolbox\Drastic.AppToolbox.csproj" />
+  </ItemGroup>
+</Project>
