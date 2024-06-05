@@ -2,6 +2,8 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.Hosting;
+
 namespace Drastic.AppToolbox.Tests;
 
 [TestClass]
@@ -15,7 +17,7 @@ public class AsyncCommandTests
     public void AsyncCommand_CanExecute()
     {
         var canExecute = true;
-        var command = new AsyncCommand(() => Task.CompletedTask, dispatcher, errorHandler, () => canExecute);
+        var command = new AsyncCommand("Test", (ct, pro, title) => Task.CompletedTask, dispatcher, errorHandler, () => canExecute);
         Assert.IsTrue(command.CanExecute());
         canExecute = false;
         Assert.IsFalse(command.CanExecute());
@@ -24,7 +26,7 @@ public class AsyncCommandTests
     [TestMethod]
     public void AsyncCommand_HandleError()
     {
-        var command = new AsyncCommand(() => throw new ExpectedErrorException(), dispatcher, errorHandler);
+        var command = new AsyncCommand("Test", (ct, pro, title) => throw new ExpectedErrorException(), dispatcher, errorHandler);
         command.Execute();
     }
 
@@ -32,7 +34,7 @@ public class AsyncCommandTests
     public void AsyncCommandFactory_Create()
     {
         var canExecute = true;
-        var command = asyncCommandFactory.Create(() => Task.CompletedTask, () => canExecute);
+        var command = asyncCommandFactory.Create("Test", (ct, pro, title) => Task.CompletedTask, () => canExecute);
         Assert.IsNotNull(command);
         Assert.IsTrue(command.CanExecute());
         canExecute = false;
@@ -44,7 +46,8 @@ public class AsyncCommandTests
     {
         var factory = new AsyncCommandFactory<string>(dispatcher, errorHandler);
         var command = factory.Create(
-            (x) =>
+            "Test",
+            (x, ct, pro, title) =>
         {
             Assert.IsNotNull(x);
             return Task.CompletedTask;
@@ -53,5 +56,23 @@ public class AsyncCommandTests
         Assert.IsNotNull(command);
         Assert.IsTrue(command.CanExecute("x"));
         Assert.IsFalse(command.CanExecute(string.Empty));
+    }
+
+    [TestMethod]
+    public void AsyncCommand_Cancel()
+    {
+        var setValue = false;
+        var command = new AsyncCommand(
+            "Test",
+            async (ct, pro, title) =>
+        {
+            await Task.Delay(1000);
+            setValue = true;
+        },
+            dispatcher,
+            errorHandler);
+        command.Execute();
+        command.Cancel();
+        Assert.IsFalse(setValue);
     }
 }

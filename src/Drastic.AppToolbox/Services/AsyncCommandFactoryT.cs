@@ -28,12 +28,7 @@ public class AsyncCommandFactory<T> : IAsyncCommandFactory<T>
         this.errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
     }
 
-    /// <summary>
-    /// Creates an instance of IAsyncCommand of type T.
-    /// </summary>
-    /// <param name="execute">A function that returns a Task. This function is executed when the command is invoked.</param>
-    /// <param name="canExecute">An optional function that returns a boolean. This function is used to determine whether the command can execute in its current state.</param>
-    /// <returns>An instance of IAsyncCommand of type T.</returns>
-    public IAsyncCommand<T> Create(Func<T, Task> execute, Func<T, bool>? canExecute = null)
-        => new AsyncCommand<T>(execute, this.dispatcher, this.errorHandler, canExecute);
+    /// <inheritdoc/>
+    public IAsyncCommand<T> Create(string title, Func<T, CancellationToken, IProgress<int>, IProgress<string>, Task> execute, Func<T, bool>? canExecute = null, bool resetTitleOnTaskComplete = true)
+        => new AsyncCommand<T>(title, execute, this.dispatcher, this.errorHandler, canExecute);
 }

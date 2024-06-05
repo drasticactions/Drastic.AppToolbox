@@ -17,8 +17,10 @@ public interface IAsyncCommandFactory<T>
     /// <summary>
     /// Creates an instance of IAsyncCommand.
     /// </summary>
+    /// <param name="title">Title of the Command.</param>
     /// <param name="execute">A function that returns a Task. This function is executed when the command is invoked.</param>
     /// <param name="canExecute">An optional function that returns a boolean. This function is used to determine whether the command can execute in its current state.</param>
+    /// <param name="resetTitleOnTaskComplete">Reset the title of the command when the task is complete.</param>
     /// <returns>An instance of IAsyncCommand.</returns>
-    public IAsyncCommand<T> Create(Func<T, Task> execute, Func<T, bool>? canExecute = null);
+    public IAsyncCommand<T> Create(string title, Func<T, CancellationToken, IProgress<int>, IProgress<string>, Task> execute, Func<T, bool>? canExecute = null, bool resetTitleOnTaskComplete = true);
 }

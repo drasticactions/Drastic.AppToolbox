@@ -25,6 +25,6 @@ public class AsyncCommandFactory : IAsyncCommandFactory
     }
 
     /// <inheritdoc/>
-    public IAsyncCommand Create(Func<Task> execute, Func<bool>? canExecute = null)
-        => new AsyncCommand(execute, this.dispatcher, this.errorHandler, canExecute);
+    public IAsyncCommand Create(string title, Func<CancellationToken, IProgress<int>, IProgress<string>, Task> execute, Func<bool>? canExecute = null, bool resetTitleOnTaskComplete = true)
+        => new AsyncCommand(title, execute, this.dispatcher, this.errorHandler, canExecute, resetTitleOnTaskComplete);
 }

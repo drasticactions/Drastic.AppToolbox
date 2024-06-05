@@ -11,9 +11,24 @@ namespace Drastic.AppToolbox.Commands
     /// </summary>
     /// <typeparam name="T">Type of Command.</typeparam>
 #pragma warning disable SA1649 // File name should match first type name
-    public interface IAsyncCommand<in T> : ICommand
+    public interface IAsyncCommand<in T> : ICommand, IDisposable
 #pragma warning restore SA1649 // File name should match first type name
     {
+        /// <summary>
+        /// Gets a value indicating whether the command is executing.
+        /// </summary>
+        public bool IsBusy { get; }
+
+        /// <summary>
+        /// Gets a value indicating the progress of the command.
+        /// </summary>
+        public int Progress { get; }
+
+        /// <summary>
+        /// Gets the Title of the Command.
+        /// </summary>
+        public string Title { get; }
+
         /// <summary>
         /// Execute Async.
         /// </summary>
@@ -33,5 +48,16 @@ namespace Drastic.AppToolbox.Commands
         /// <param name="parameter">parameter.</param>
         /// <returns>Bool.</returns>
         bool CanExecute(T parameter);
+
+        /// <summary>
+        /// Cancel Command.
+        /// </summary>
+        void Cancel();
+
+        /// <summary>
+        /// Update Title.
+        /// </summary>
+        /// <param name="title">Title to update.</param>
+        void UpdateTitle(string title);
     }
 }

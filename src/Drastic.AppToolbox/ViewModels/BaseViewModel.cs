@@ -80,48 +80,35 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// If the task throws, it is handled by <see cref="ErrorHandler"/>.
     /// </summary>
     /// <param name="action">Task to run.</param>
-    /// <param name="loadingText">Optional Is Loading text.</param>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <param name="isLoadingText">Optional Is Loading text.</param>
     /// <returns>Task.</returns>
-    public async Task PerformBusyAsyncTask(Func<Task> action, string loadingText = "", CancellationToken? cancellationToken = default)
+    public Task PerformBusyAsyncTask(Func<CancellationToken, IProgress<int>, IProgress<string>, Task> action, string isLoadingText = "")
     {
-        this.IsLoadingText = loadingText;
-        this.IsBusy = true;
+        using var command = this.CommandFactory.Create(isLoadingText, action);
+        return this.PerformBusyAsyncTask(command, isLoadingText);
+    }
 
+    /// <summary>
+    /// Performs an Async task while setting the <see cref="IsBusy"/> variable.
+    /// If the task throws, it is handled by <see cref="ErrorHandler"/>.
+    /// </summary>
+    /// <param name="action">Task to run.</param>
+    /// <param name="isLoadingText">Optional Is Loading text.</param>
+    /// <returns>Task.</returns>
+    public async Task PerformBusyAsyncTask(IAsyncCommand action, string isLoadingText = "")
+    {
         try
         {
-            // Start the action task
-            var actionTask = action.Invoke();
-            var token = cancellationToken ?? CancellationToken.None;
-
-            // Create a task that completes when the cancellation token is triggered
-            var cancellationTask = Task.Delay(Timeout.Infinite, token);
-
-            // Await the first task to complete: either the action task or the cancellation task
-            var completedTask = await Task.WhenAny(actionTask, cancellationTask);
-
-            if (completedTask == cancellationTask)
-            {
-                // If the cancellation task completed first, throw an OperationCanceledException
-                throw new OperationCanceledException(token);
-            }
-
-            // Await the action task to propagate any exceptions
-            await actionTask;
-        }
-        catch (OperationCanceledException)
-        {
-            // Handle the cancellation specifically if needed
-            // Optionally log or notify about the cancellation
+            this.IsLoadingText = isLoadingText;
+            this.IsBusy = true;
+            await action.ExecuteAsync();
         }
         catch (Exception ex)
         {
-            // Handle other exceptions
             this.ErrorHandler.HandleError(ex);
         }
         finally
         {
-            // Ensure that these properties are reset even if an exception occurs
             this.IsBusy = false;
             this.IsLoadingText = string.Empty;
         }

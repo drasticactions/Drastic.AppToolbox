@@ -32,7 +32,7 @@ public class ViewModelTests
             : base(dispatcher, errorHandler, asyncCommandFactory)
         {
             this.intCommandFactory = new AsyncCommandFactory<int>(dispatcher, errorHandler);
-            this.PerformBusyAsyncTaskDelayTestCommand = this.intCommandFactory.Create(this.PerformBusyAsyncTaskDelay, (x) => this.CanExecute);
+            this.PerformBusyAsyncTaskDelayTestCommand = this.intCommandFactory.Create("Test", this.PerformBusyAsyncTaskDelay, (x) => this.CanExecute);
         }
 
         public bool CanExecute
@@ -43,8 +43,8 @@ public class ViewModelTests
 
         public IAsyncCommand<int> PerformBusyAsyncTaskDelayTestCommand { get; }
 
-        private Task PerformBusyAsyncTaskDelay(int delay)
-            => this.PerformBusyAsyncTask(async () =>
+        private Task PerformBusyAsyncTaskDelay(int delay, CancellationToken token, IProgress<int> pro, IProgress<string> title)
+            => this.PerformBusyAsyncTask(async (ct, pro, title) =>
             {
                 // Should be run within PerformBusyAsyncTask
                 Assert.IsTrue(this.IsBusy);
