@@ -120,6 +120,7 @@ namespace Drastic.AppToolbox.Commands
         {
             if (this.CanExecute(parameter))
             {
+                this.Progress = 0;
                 this.cancellationTokenSource.TryReset();
                 try
                 {

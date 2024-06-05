@@ -104,6 +104,7 @@ namespace Drastic.AppToolbox.Commands
             if (this.CanExecute())
             {
                 this.cancellationTokenSource.TryReset();
+                this.Progress = 0;
                 if (this.execute is not null)
                 {
                     try
