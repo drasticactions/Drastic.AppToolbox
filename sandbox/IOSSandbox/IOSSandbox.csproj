@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-ios</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <UseInterpreter>true</UseInterpreter>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Drastic.AppToolbox\Drastic.AppToolbox.csproj" />
+    <ProjectReference Include="..\SandboxCore\SandboxCore.csproj" />
+    <ProjectReference Include="..\SandboxUIKit\SandboxUIKit.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Drastic.PureLayout" Version="1.0.4" />
+  </ItemGroup>
+</Project>

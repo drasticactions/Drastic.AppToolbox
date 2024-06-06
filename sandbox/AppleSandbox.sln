@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOSSandbox", "IOSSandbox\IOSSandbox.csproj", "{41A83A1D-D975-41F0-9409-F0419AE2DA33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandboxCore", "SandboxCore\SandboxCore.csproj", "{BF13151D-D2CB-446C-95FF-984F766FA153}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandboxUIKit", "SandboxUIKit\SandboxUIKit.csproj", "{FEF4E86F-69C0-4487-A62D-56BD76FC51FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drastic.AppToolbox", "..\src\Drastic.AppToolbox\Drastic.AppToolbox.csproj", "{DB8FB11D-DCAF-4AF0-9841-4C791AF680BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41A83A1D-D975-41F0-9409-F0419AE2DA33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A83A1D-D975-41F0-9409-F0419AE2DA33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A83A1D-D975-41F0-9409-F0419AE2DA33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A83A1D-D975-41F0-9409-F0419AE2DA33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF13151D-D2CB-446C-95FF-984F766FA153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF13151D-D2CB-446C-95FF-984F766FA153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF13151D-D2CB-446C-95FF-984F766FA153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF13151D-D2CB-446C-95FF-984F766FA153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEF4E86F-69C0-4487-A62D-56BD76FC51FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEF4E86F-69C0-4487-A62D-56BD76FC51FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEF4E86F-69C0-4487-A62D-56BD76FC51FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEF4E86F-69C0-4487-A62D-56BD76FC51FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB8FB11D-DCAF-4AF0-9841-4C791AF680BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8FB11D-DCAF-4AF0-9841-4C791AF680BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB8FB11D-DCAF-4AF0-9841-4C791AF680BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB8FB11D-DCAF-4AF0-9841-4C791AF680BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -18,6 +18,7 @@ public class DebugViewModel : BaseViewModel
     public DebugViewModel(IAppDispatcher dispatcher, IErrorHandler errorHandler, IAsyncCommandFactory asyncCommandFactory)
         : base(dispatcher, errorHandler, asyncCommandFactory)
     {
+        this.Title = "Tests";
         testCommand = (AsyncCommand)asyncCommandFactory.Create("Test Command", async (x, y, z) =>
         {
             this.Title = "Test Command Running 2";
