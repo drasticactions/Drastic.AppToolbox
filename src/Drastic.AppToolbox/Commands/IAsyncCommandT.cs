@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Drastic.AppToolbox.Commands
@@ -11,7 +12,7 @@ namespace Drastic.AppToolbox.Commands
     /// </summary>
     /// <typeparam name="T">Type of Command.</typeparam>
 #pragma warning disable SA1649 // File name should match first type name
-    public interface IAsyncCommand<in T> : ICommand, IDisposable
+    public interface IAsyncCommand<in T> : ICommand, IDisposable, INotifyPropertyChanged
 #pragma warning restore SA1649 // File name should match first type name
     {
         /// <summary>

@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Drastic.AppToolbox.Commands
@@ -9,7 +10,7 @@ namespace Drastic.AppToolbox.Commands
     /// <summary>
     /// IAsyncCommand.
     /// </summary>
-    public interface IAsyncCommand : ICommand, IDisposable
+    public interface IAsyncCommand : ICommand, IDisposable, INotifyPropertyChanged
     {
         /// <summary>
         /// Gets a value indicating whether the command is executing.

@@ -15,7 +15,7 @@ namespace Drastic.AppToolbox.Commands
     /// </summary>
     /// <typeparam name="T">Generic Parameter.</typeparam>
 #pragma warning disable SA1649 // File name should match first type name
-    public class AsyncCommand<T> : IAsyncCommand<T>, IDisposable, INotifyPropertyChanged
+    public class AsyncCommand<T> : IAsyncCommand<T>, INotifyPropertyChanged
 #pragma warning restore SA1649 // File name should match first type name
     {
         private readonly Func<T, CancellationToken, IProgress<int>, IProgress<string>, Task> execute;
@@ -30,6 +30,7 @@ namespace Drastic.AppToolbox.Commands
         private bool isBusy;
         private string originalTitle = string.Empty;
         private bool resetTitleOnTaskComplete;
+        private bool blockWhileExecuting;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncCommand{T}"/> class.
@@ -40,6 +41,7 @@ namespace Drastic.AppToolbox.Commands
         /// <param name="errorHandler">Error Handler.</param>
         /// <param name="canExecute">Can Execute Function.</param>
         /// <param name="resetTitleOnTaskComplete">Reset the title on task completion.</param>
+        /// <param name="blockWhileExecuting">Block while executing.</param>
         public AsyncCommand(
             string title,
             Func<T, CancellationToken,
@@ -47,7 +49,8 @@ namespace Drastic.AppToolbox.Commands
             IAppDispatcher dispatcher,
             IErrorHandler errorHandler,
             Func<T, bool>? canExecute = null,
-            bool resetTitleOnTaskComplete = true)
+            bool resetTitleOnTaskComplete = true,
+            bool blockWhileExecuting = true)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(title);
             ArgumentNullException.ThrowIfNull(execute);
@@ -61,6 +64,7 @@ namespace Drastic.AppToolbox.Commands
             this.Title = title;
             this.originalTitle = title;
             this.resetTitleOnTaskComplete = resetTitleOnTaskComplete;
+            this.blockWhileExecuting = blockWhileExecuting;
         }
 
         /// <inheritdoc/>
@@ -101,7 +105,12 @@ namespace Drastic.AppToolbox.Commands
         /// <returns>Boolean.</returns>
         public bool CanExecute(T parameter)
         {
-            return !this.isBusy && (this.canExecute?.Invoke(parameter) ?? true);
+            if (this.blockWhileExecuting && this.IsBusy)
+            {
+                return false;
+            }
+
+            return this.canExecute?.Invoke(parameter) ?? true;
         }
 
         /// <summary>
@@ -137,6 +146,7 @@ namespace Drastic.AppToolbox.Commands
                     if (this.resetTitleOnTaskComplete)
                     {
                         this.Title = this.originalTitle;
+                        this.Progress = 0;
                     }
                 }
             }
