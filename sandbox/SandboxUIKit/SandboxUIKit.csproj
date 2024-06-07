@@ -4,6 +4,7 @@
     <TargetFrameworks>net8.0-ios;net8.0-maccatalyst;net8.0-tvos</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Drastic.PureLayout" Version="1.0.4" />
   </ItemGroup>
 

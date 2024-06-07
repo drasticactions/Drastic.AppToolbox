@@ -23,7 +23,7 @@ public class DebugViewModel : BaseViewModel
         {
             this.Title = "Test Command Running 2";
             this.testCommand!.UpdateTitle("Test Command Running");
-            await Task.Delay(1000);
+            await Task.Delay(5000);
         });
 
         increaseProgressCommand = (AsyncCommand)asyncCommandFactory.Create("Increase Progress", async (x, y, z) =>
@@ -31,7 +31,7 @@ public class DebugViewModel : BaseViewModel
             for (int i = 0; i <= 100; i++)
             {
                 this.IncreaseProgressCommand.UpdateTitle($"Progress: {i}%");
-                await Task.Delay(10);
+                await Task.Delay(100);
                 y.Report(i);
             }
         });
