@@ -54,5 +54,10 @@ namespace Drastic.AppToolbox.Commands
         /// </summary>
         /// <param name="title">Title to update.</param>
         void UpdateTitle(string title);
+
+        /// <summary>
+        /// Raise Can Execute Changed.
+        /// </summary>
+        void RaiseCanExecuteChanged();
     }
 }
