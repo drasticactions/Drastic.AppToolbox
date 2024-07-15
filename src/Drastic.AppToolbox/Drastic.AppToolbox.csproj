@@ -1,18 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsPackable>true</IsPackable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
-    <IsAotCompatible>true</IsAotCompatible>
-    <NoWarn>$(NoWarn);SA0001</NoWarn>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
+	<Import Project="../MultiTargeting.targets" />
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net8.0-ios;net8.0-maccatalyst;net8.0-tvos</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>true</IsPackable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors>nullable</WarningsAsErrors>
+		<IsAotCompatible>true</IsAotCompatible>
+		<NoWarn>$(NoWarn);SA0001;SA1124;SA1201</NoWarn>
+		<EnableWindowsTargeting Condition="$([MSBuild]::IsOSPlatform('windows'))">true</EnableWindowsTargeting>
+	</PropertyGroup>
+	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) == true">
+		<PackageReference Include="Microsoft.WindowsAppSDK" />
+	</ItemGroup>
+	<PropertyGroup Condition="$(TargetFramework.Contains('-windows')) == true">
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+	</PropertyGroup>
 </Project>
