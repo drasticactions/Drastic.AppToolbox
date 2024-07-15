@@ -183,6 +183,11 @@ public partial class ObservableDataSource<T> : IObservableDataSource<T>
         this.Data?.Remove(item);
     }
 
+    public virtual Task<int> LoadMoreItemsAsync(int count)
+    {
+        return Task.FromResult(0);
+    }
+
     //public void ClearFilter();
 
     /// <summary>

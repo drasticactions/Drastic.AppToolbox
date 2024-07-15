@@ -3,8 +3,11 @@
 // </copyright>
 
 using System.Collections.Specialized;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
+using Windows.Foundation;
 
 namespace Drastic.AppToolbox.Data;
 
@@ -12,8 +15,24 @@ namespace Drastic.AppToolbox.Data;
 /// The observable data source.
 /// </summary>
 /// <typeparam name="T">The type of the data.</typeparam>
-public partial class ObservableDataSource<T>
+public partial class ObservableDataSource<T> : ISupportIncrementalLoading
 {
+    /// <summary>
+    /// Gets a value indicating whether there are more items to load.
+    /// </summary>
+    /// <returns><c>true</c> if there are more items to load; otherwise, <c>false</c>.</returns>
+    public bool HasMoreItems { get; private set; } = true;
+
+    /// <summary>
+    /// Loads more items asynchronously.
+    /// </summary>
+    /// <param name="count">The number of items to load.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public virtual IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+    {
+        return AsyncInfo.Run((c) => this.LoadMoreItemsAsync(c, count));
+    }
+
     /// <summary>
     /// The collection changed partial method must be implemented in the OS specific code.
     /// </summary>
@@ -91,5 +110,12 @@ public partial class ObservableDataSource<T>
         {
             this.InvokeItemSelectedEvent(sender, item);
         }
+    }
+
+    private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken c, uint count)
+    {
+        var result = await this.LoadMoreItemsAsync((int)count);
+        this.HasMoreItems = result > 0;
+        return new LoadMoreItemsResult { Count = (uint)result };
     }
 }
