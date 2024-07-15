@@ -26,8 +26,9 @@ public interface ITableCellProvider<T>
     /// Gets the custom cell.
     /// </summary>
     /// <returns><see cref="UITableViewCell"/>.</returns>
+    /// <param name="tableView">UITableView.</param>
     /// <param name="item">Item.</param>
-    UITableViewCell GetCell(T item);
+    UITableViewCell GetCell(UITableView tableView, T item);
 
     /// <summary>
     /// Gets the height for row.

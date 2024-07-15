@@ -193,7 +193,7 @@ public partial class ObservableDataSource<T>
 
         if (cellProvider != null)
         {
-            return cellProvider.GetCell(item);
+            return cellProvider.GetCell(tableView, item);
         }
 
         var cell = tableView.DequeueReusableCell(this.CellId) ??
